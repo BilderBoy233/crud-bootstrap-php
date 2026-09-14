@@ -1,0 +1,18 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+  border-color: #000000;
+  background-color: #cccccccc;
+}
+
+.btn-light {
+  background-color: #9c9c9ccc;
+  border-color: #cccccccc;
+  color: #ffff;
+}
+
+.btn-light:hover {
+  background-color: #999999;
+  border-color: #999999;
+  color: #ffffffff;
+}
