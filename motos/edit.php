@@ -37,7 +37,7 @@
 
   <div class="row g-3 mb-3">
     <div class="col-md-5">
-      <label for="foto" class="form-label">Foto</label>
+      <label for="foto" class="form-label">Foto (Apenas formato .jpg, .jpeg e .png)</label>
       <!-- campo de upload -->
       <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
       <?php if (!empty($moto['foto'])): ?>

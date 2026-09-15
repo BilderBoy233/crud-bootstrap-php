@@ -30,14 +30,30 @@ function FormatData($data, $format) {
     $dt = new DateTime($data, new DateTimeZone("-0300"));
     return $dt->format($format);
 }
+
 function FormatPlaca($placa) {
-    return substr($placa,0,3) . " " . substr($placa,3);
+    // Remove qualquer caractere que não seja letra ou número (substitui por vazio "")
+    $placaLimpa = preg_replace("/[^a-zA-Z0-9]/", "", $placa);
+    
+    // Se a placa limpa tiver tamanho suficiente, formata com o espaço no meio
+    if (strlen($placaLimpa) >= 7) {
+        return strtoupper(substr($placaLimpa, 0, 3) . " " . substr($placaLimpa, 3, 4));
+    }
+
+    return strtoupper($placaLimpa);
 }
 
 /**
  *  Cadastro de Motocicletas
  */
 function add() {
+
+  // Dentro de add() ou edit(), antes de salvar:
+  if (!empty($_POST['moto']['placa'])) {
+      $_POST['moto']['placa'] = preg_replace("/[^a-zA-Z0-9]/", "", $_POST['moto']['placa']);
+      $_POST['moto']['placa'] = strtoupper($_POST['moto']['placa']);
+  }
+
   if (!empty($_POST['moto'])) {
     $today = new DateTime('now', new DateTimeZone("-0300"));
     $moto = $_POST['moto'];
@@ -97,6 +113,13 @@ function save($table = null, $data = null) {
  *  Atualização/Edição de Moto
  */
 function edit() {
+
+  // Dentro de add() ou edit(), antes de salvar:
+  if (!empty($_POST['moto']['placa'])) {
+      $_POST['moto']['placa'] = preg_replace("/[^a-zA-Z0-9]/", "", $_POST['moto']['placa']);
+      $_POST['moto']['placa'] = strtoupper($_POST['moto']['placa']);
+  }
+
   if (isset($_GET['id'])) {
     $id = $_GET['id'];
 

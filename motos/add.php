@@ -35,9 +35,9 @@ include HEADER_TEMPLATE; ?>
 
     <div class="row g-3 mb-3">
         <div class="col-md-5">
-            <label for="foto" class="form-label">Foto</label>
+            <label for="foto" class="form-label">Foto (Apenas formato .jpg, .jpeg e .png)</label>
             <input type="file" class="form-control" id="foto" name="foto" accept="image/*" required>
-            <div class="invalid-feedback">Envie a foto da motinha.</div>
+            <div class="invalid-feedback">Envie a foto da motinha (Apenas formato .jpg, .jpeg e .png).</div>
         </div>
 
         <div class="col-md-3">
