@@ -34,7 +34,7 @@ include HEADER_TEMPLATE;
                 <?php if (!empty($moto['foto'])): ?>
                     <img src="uploads/<?php echo $moto['foto']; ?>" 
                          alt="Foto da moto" 
-                         style="max-width:400px; height: 400px;;">
+                         style="width:400px; height: 400px;;">
                 <?php else: ?>
                     <span>Sem foto cadastrada</span>
                 <?php endif; ?>

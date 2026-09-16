@@ -58,10 +58,11 @@ include HEADER_TEMPLATE;
                     </td>
                     <td><?php echo FormatPlaca($moto['placa']); ?></td>
                     <td>
-                        <?php if (!empty($moto['foto'])): ?>
+                        <?php 
+                        if (!empty($moto['foto'])): ?>
                             <img src="uploads/<?php echo $moto['foto']; ?>" 
                                  alt="Foto da moto" 
-                                 style="max-width:100px; height:auto;">
+                                 style="width:100px; height: 100px;;">
                         <?php else: ?>
                             <span>Sem foto</span>
                         <?php endif; ?>

@@ -30,7 +30,7 @@
 
     <div class="col-md-2">
       <label for="datacad" class="form-label">Data de Cadastro</label>
-      <input type="text" class="form-control" id="datacad" name="moto[datacad]" value="<?php echo (FormatData($moto['datacad'], "d/m/y - H:i:s")); ?>" required>
+      <input type="date" class="form-control" id="datacad" name="moto[datacad]" value="<?php echo (FormatData($moto['datacad'], "d/m/y - H:i:s")); ?>" required>
       <div class="invalid-feedback">Informe a data de cadastro.</div>
     </div>
   </div>
