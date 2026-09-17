@@ -1,65 +1,76 @@
-<?php 
-  include "functions.php"; 
-  edit();
-  include HEADER_TEMPLATE;
+<?php
+require_once('functions.php');
+edit();
 ?>
-<br>
-<h2>Atualizar Moto</h2>
+<?php include(HEADER_TEMPLATE); ?>
 
-<form class="needs-validation" novalidate action="edit.php?id=<?php echo (int) $moto['id']; ?>" method="post" enctype="multipart/form-data">
-  <hr>
+<h2 class="mt-2">Atualizar Moto</h2>
 
-  <div class="row g-3 mb-3">
-    <div class="col-md-7">
-      <label for="modelo" class="form-label">Modelo da Motocicleta</label>
-      <input type="text" class="form-control" id="modelo" name="moto[modelo]" value="<?php echo ($moto['modelo']); ?>" required>
-      <div class="invalid-feedback">Informe o modelo.</div>
+<?php if (!empty($_SESSION['message'])): ?>
+    <div class="alert alert-<?php echo $_SESSION['type']; ?>"><?php echo $_SESSION['message']; ?></div>
+    <?php unset($_SESSION['message']); unset($_SESSION['type']); ?>
+<?php endif; ?>
+
+<form action="edit.php?id=<?php echo $moto['id']; ?>" method="post" enctype="multipart/form-data">
+    <hr>
+    <div class="row">
+        <div class="form-group col-md-5">
+            <label for="modelo">Modelo</label>
+            <input type="text" class="form-control" id="modelo" name="moto[modelo]" maxlength="50" required value="<?php echo $moto['modelo']; ?>">
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="marca">Marca</label>
+            <input type="text" class="form-control" id="marca" name="moto[marca]" maxlength="30" required value="<?php echo $moto['marca']; ?>">
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="motor">Motor</label>
+            <input type="text" class="form-control" id="motor" name="moto[motor]" maxlength="20" required value="<?php echo $moto['motor']; ?>">
+        </div>
+
+        <div class="form-group col-md-2">
+            <label for="placa">Placa</label>
+            <input type="text" class="form-control" id="placa" name="moto[placa]" minlength="7" maxlength="7"
+                pattern="[A-Za-z]{3}[A-Za-z0-9]{4}" title="Digite os 7 caracteres da placa, sem espaço ou hífen." value="<?php echo $moto['placa']; ?>" required>
+        </div>
     </div>
 
-    <div class="col-md-3">
-      <label for="marca" class="form-label">Marca</label>
-      <input type="text" class="form-control" id="marca" name="moto[marca]" value="<?php echo ($moto['marca']); ?>" required>
-      <div class="invalid-feedback">Informe a marca.</div>
+    <div class="row mt-2">
+        <div class="form-group col-md-5">
+            <label for="foto">Nova Foto</label>
+            <input type="file" class="form-control" id="foto" name="foto" accept=".jpg,.jpeg,.png">
+            <small class="form-text text-muted">Deixe vazio para manter a foto atual.</small>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="datacad">Data de Cadastro</label>
+            <input type="text" class="form-control" id="datacad" disabled value="<?php echo formatadata($moto['datacad'], 'd/m/Y - H:i:s'); ?>">
+        </div>
     </div>
 
-    <div class="col-md-3">
-      <label for="motor" class="form-label">Motor</label>
-      <input type="text" class="form-control" id="motor" name="moto[motor]" value="<?php echo ($moto['motor']); ?>" required>
-      <div class="invalid-feedback">Informe o motor.</div>
-    </div>
+    <div class="mt-3">
+      <p>Foto atual:</p>
 
-    <div class="col-md-2">
-      <label for="datacad" class="form-label">Data de Cadastro</label>
-      <input type="date" class="form-control" id="datacad" name="moto[datacad]" value="<?php echo (FormatData($moto['datacad'], "d/m/y - H:i:s")); ?>" required>
-      <div class="invalid-feedback">Informe a data de cadastro.</div>
-    </div>
-  </div>
-
-  <div class="row g-3 mb-3">
-    <div class="col-md-5">
-      <label for="foto" class="form-label">Foto (Apenas formato .jpg, .jpeg e .png)</label>
-      <!-- campo de upload -->
-      <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
-      <?php if (!empty($moto['foto'])): ?>
-        <p>Foto atual:</p>
-        <img src="uploads/<?php echo $moto['foto']; ?>" alt="Foto da moto" style="max-width:150px;">
+      <?php if (!empty($moto['foto']) && file_exists("uploads/" . $moto['foto'])): ?>
+          <img id="previewFoto"
+              src="uploads/<?php echo $moto['foto']; ?>"
+              alt="Foto da moto"
+              style="width: 400px; height: 300px; object-fit: cover;">
+      <?php else: ?>
+          <img id="previewFoto"
+              src="img/sem-foto.jpg"
+              alt="Sem foto"
+              style="width: 400px; height: 300px; object-fit: cover;">
       <?php endif; ?>
-      <div class="invalid-feedback">Envie a foto da moto.</div>
-    </div>
-
-    <div class="col-md-2">
-      <label for="placa" class="form-label">Placa</label>
-      <input type="text" class="form-control" id="placa" name="moto[placa]" value="<?php echo ($moto['placa']); ?>" required>
-      <div class="invalid-feedback">Informe a placa.</div>
-    </div>
   </div>
 
-  <div id="actions" class="row">
-    <div class="col-md-12">
-      <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-floppy-disk"></i>Salvar</button>
-      <a href="index.php" class="btn btn-light"><i class="fa-regular fa-circle-xmark"></i>Cancelar</a>
+    <div id="actions" class="row mt-3">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+            <a href="index.php" class="btn btn-light"><i class="fa-regular fa-circle-xmark"></i> Cancelar</a>
+        </div>
     </div>
-  </div>
 </form>
 
-<?php include FOOTER_TEMPLATE; ?>
+<?php include(FOOTER_TEMPLATE); ?>

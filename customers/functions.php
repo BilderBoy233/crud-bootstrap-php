@@ -1,10 +1,27 @@
 <?php
-
 include "../config.php";
 include DBAPI;
 
 $customers = null;
 $customer = null;
+
+/**
+ *  Função para formatar as datas
+ */
+function formatadata($data, $formato)
+{
+    $dt = new DateTime($data, new DateTimeZone("-0300"));
+    return $dt->format($formato);
+}
+
+/**
+ *  Função para formatar os telefones
+ */
+function telefone($tel)
+{
+    return "(" . substr($tel, 0, 2) . ")" . substr($tel, 2, 5)
+        . "-" . substr($tel, 7, 4);
+}
 
 /**
  *  Listagem de Clientes
@@ -14,181 +31,79 @@ function index()
     global $customers;
     $customers = find_all("customers");
 }
-/**
- *  Visualização de um Cliente
- */
-function view($id = null) {
-  global $customer;
-  $customer = find("customers", $id);
-}
 
-/**
- *  Funções de formatação
- */
-function FormatData($data, $format) {
-    $dt = new DateTime($data, new DateTimeZone("-0300"));
-    return $dt->format($format);
-}
-function FormatTel($phone) {
-    if (!empty($phone)) {
-        if (strlen($phone) == 11) {
-            $tel = "(" . substr($phone,0,2). ") " . substr($phone,2,5) . " - ". substr($phone,7);
-        }
-        else if(strlen($phone) == 10) {
-            $tel = "(" . substr($phone, 0, 2) . ") " . substr($phone, 2, 4) . " - " . substr($phone, 6, 4);
-        }
-    } else {
-        $tel = "";
-    }
-    return $tel;
-}
-function FormatCep($cep) {
-    $cep = substr($cep,0,5) . " - ". substr($cep,5);
-    return $cep;
-}
 /**
  *  Cadastro de Clientes
  */
-function add() {
+function add()
+{
+    if (!empty($_POST['customer'])) {
+        $today = date_create('now', new DateTimeZone('America/Sao_Paulo'));
 
-  if (!empty($_POST['customer'])) {
-    
-    $today = new DateTime('now', new DateTimeZone("-0300"));
+        $customer = $_POST['customer'];
 
-    $customer = $_POST['customer'];
-    $customer['modified'] = $customer['created'] = $today->format("Y-m-d H:i:s");
-    
-    save("customers", $customer);
-    header("location: index.php");
-  }
+        $customer["'cpf_cnpj'"] = preg_replace('/[^0-9]/', '', $customer["'cpf_cnpj'"]);
+        $customer["'zip_code'"] = preg_replace('/[^0-9]/', '', $customer["'zip_code'"]);
+        $customer["'phone'"] = preg_replace('/[^0-9]/', '', $customer["'phone'"]);
+        $customer["'mobile'"] = preg_replace('/[^0-9]/', '', $customer["'mobile'"]);
+        $customer["'ie'"] = preg_replace('/[^0-9]/', '', $customer["'ie'"]);
+
+        $customer['modified'] = $customer['created'] = $today->format("Y-m-d H:i:s");
+
+        save('customers', $customer);
+        header('location: index.php');
+    }
 }
+
 /**
-*  Insere um registro no BD
-*/
-function save($table = null, $data = null) {
-
-  $database = open_database();
-
-  $columns = null;
-  $values = null;
-
-  //print_r($data);
-
-  foreach ($data as $key => $value) {
-    $columns .= trim($key, "'") . ",";
-    $values .= "'$value',";
-  }
-
-  // remove a ultima virgula
-  $columns = rtrim($columns, ',');
-  $values = rtrim($values, ',');
-  
-  $sql = "INSERT INTO $table ($columns) VALUES ($values);";
-
-  try {
-    $database->query($sql);
-
-    $_SESSION['message'] = "Registro cadastrado com sucesso!.";
-    $_SESSION['type'] = 'success';
-  
-  } catch (Exception $e) { 
-  
-    $_SESSION['message'] = "Não foi possivel realizar a operação.";
-    $_SESSION['type'] = 'danger';
-  } 
-
-  close_database($database);
-}
-/**
- *	Atualizacao/Edicao de Cliente
+ *  Atualizacao/Edicao de Cliente
  */
-function edit() {
+function edit()
+{
+    $now = date_create('now', new DateTimeZone('America/Sao_Paulo'));
 
-  $now = new DateTime('now', new DateTimeZone("-0300"));
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
 
-  if (isset($_GET['id'])) {
+        if (isset($_POST['customer'])) {
+            $customer = $_POST['customer'];
 
-    $id = $_GET['id'];
+            $customer["'cpf_cnpj'"] = preg_replace('/[^0-9]/', '', $customer["'cpf_cnpj'"]);
+            $customer["'zip_code'"] = preg_replace('/[^0-9]/', '', $customer["'zip_code'"]);
+            $customer["'phone'"] = preg_replace('/[^0-9]/', '', $customer["'phone'"]);
+            $customer["'mobile'"] = preg_replace('/[^0-9]/', '', $customer["'mobile'"]);
+            $customer["'ie'"] = preg_replace('/[^0-9]/', '', $customer["'ie'"]);
 
-    if (isset($_POST['customer'])) {
+            $customer['modified'] = $now->format("Y-m-d H:i:s");
 
-      $customer = $_POST['customer'];
-      $customer['modified'] = $now->format("Y-m-d H:i:s");
-
-      update("customers", $id, $customer);
-      header("location: index.php");
+            update('customers', $id, $customer);
+            header('location: index.php');
+        } else {
+            global $customer;
+            $customer = find('customers', $id);
+        }
     } else {
-
-      global $customer;
-      $customer = find("customers", $id);
-    } 
-  } else {
-    header("location: index.php");
-  }
+        header('location: index.php');
+    }
 }
 
-function update($table = null, $id = 0, $data = null) {
-
-  $database = open_database();
-
-  $items = null;
-
-  foreach ($data as $key => $value) {
-    $items .= trim($key, "'") . "='$value',";
-  }
-
-  // remove a ultima virgula
-  $items = rtrim($items, ',');
-
-  $sql  = "UPDATE $table SET $items WHERE id=$id";
-
-  try {
-    $database->query($sql);
-
-    $_SESSION['message'] = "Registro atualizado com sucesso.";
-    $_SESSION['type'] = "success";
-
-  } catch (Exception $e) { 
-
-    $_SESSION['message'] = "Não foi possivel realizar a operação.";
-    $_SESSION['type'] = "danger";
-  } 
-
-  close_database($database);
+/**
+ *  Visualização de um Cliente
+ */
+function view($id = null)
+{
+    global $customer;
+    $customer = find("customers", $id);
 }
+
 /**
  *  Exclusão de um Cliente
  */
-function delete($id = null) {
+function delete($id = null)
+{
+    global $customer;
+    $customer = remove('customers', $id);
 
-  global $customer;
-  $customer = remove("customers", $id);
-
-  header("location: index.php");
+    header('location: index.php');
 }
-/**
- *  Remove uma linha de uma tabela pelo ID do registro
- */
-function remove( $table = null, $id = null ) {
-
-  $database = open_database();
-	
-  try {
-    if ($id) {
-
-      $sql = "DELETE FROM  $table  WHERE id =$id";
-      $result = $database->query($sql);
-
-      if ($result = $database->query($sql)) {   	
-        $_SESSION['message'] = "Registro Removido com Sucesso.";
-        $_SESSION['type'] = "success";
-      }
-    }
-  } catch (Exception $e) { 
-
-    $_SESSION['message'] = "Não foi possivel realizar a operação." . $e->GetMessage();
-    $_SESSION['type'] = "danger";
-  }
-
-  close_database($database);
-}
+?>
