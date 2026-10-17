@@ -32,4 +32,22 @@ CREATE TABLE motos (
     datacad DATETIME NOT NULL,
     placa VARCHAR(7) NOT NULL,
     foto VARCHAR(255) NULL
+<<<<<<< HEAD
 );
+=======
+);
+
+-- Script para criar e cadastrar na tabela usuários (execute no banco do projeto):
+CREATE TABLE usuarios(
+    id int AUTO_INCREMENT not null PRIMARY KEY,
+    nome varchar(50) not null,
+    user varchar(50) not null,
+    password varchar(100) not null,
+    foto varchar(50)
+);
+
+INSERT INTO usuarios (nome, user, password) 
+VALUES ('Zé Lele','zelele','5243897562837456982'),
+('Mary Zica','mazi','786098767869'),
+('Fugiru Nakombi','fugina','623485634753234');
+>>>>>>> 438f029 (usuario colocado)

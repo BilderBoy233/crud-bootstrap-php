@@ -46,12 +46,37 @@ try {
     <div class="row mt-2">
         <div class="col-xs-6 col-sm-3 col-md-2">
             <a href="motos/add.php" class="btn btn-secondary">
+<<<<<<< HEAD
                 <div class="row"><div class="col-xs-12 text-center"><i class="fa-solid fa-plus fa-5x"></i></div><div class="col-xs-12 text-center"><p>Nova Moto</p></div></div>
+=======
+                <div class="row"><div class="col-xs-12 text-center"><i class="fa-solid fa-plus fa-5x"></i></div>
+                <div class="col-xs-12 text-center"><p>Nova Moto</p></div></div>
+>>>>>>> 438f029 (usuario colocado)
             </a>
         </div>
         <div class="col-xs-6 col-sm-3 col-md-2">
             <a href="motos" class="btn btn-light">
+<<<<<<< HEAD
                 <div class="row"><div class="col-xs-12 text-center"><i class="fa-solid fa-motorcycle fa-5x"></i></div><div class="col-xs-12 text-center"><p>Motos</p></div></div>
+=======
+                <div class="row"><div class="col-xs-12 text-center"><i class="fa-solid fa-motorcycle fa-5x"></i></div>
+                <div class="col-xs-12 text-center"><p>Motos</p></div></div>
+            </a>
+        </div>
+    </div>
+
+        <div class="row mt-2">
+        <div class="col-xs-6 col-sm-3 col-md-2">
+            <a href="usuarios/add.php" class="btn btn-secondary">
+                <div class="row"><div class="col-xs-12 text-center"><i class="fa-solid fa-user-tie fa-5x"></i></div>
+                <div class="col-xs-12 text-center"><p>Novo Usuário</p></div></div>
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2">
+            <a href="usuarios" class="btn btn-light">
+                <div class="row"><div class="col-xs-12 text-center"><i class="fa-solid fa-users-gear fa-5x"></i></div>
+                <div class="col-xs-12 text-center"><p>Usuários</p></div></div>
+>>>>>>> 438f029 (usuario colocado)
             </a>
         </div>
     </div>

@@ -64,6 +64,27 @@
                             <li><a class="dropdown-item" href="<?php echo BASEURL; ?>motos/add.php"><i class="fa-solid fa-plus"></i> Nova Moto</a></li>
                         </ul>
                     </li>
+<<<<<<< HEAD
+=======
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fa-solid fa-users"></i> Usuários
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="<?php echo BASEURL; ?>usuarios">
+                                    <i class="fa-solid fa-users-gear"></i> Gerenciar Usuários
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="<?php echo BASEURL; ?>usuarios/add.php">
+                                    <i class="fa-solid fa-user-tie"></i> Novo Usuário
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+>>>>>>> 438f029 (usuario colocado)
                 </ul>
 
                 <button class="btn btn-theme btn-sm" id="toggleTema" type="button">
