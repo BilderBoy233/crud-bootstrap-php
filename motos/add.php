@@ -45,11 +45,7 @@ add();
             <div class="mt-3">
                 <p>Pré-visualização:</p>
                 <img id="previewFoto"
-<<<<<<< HEAD
-                    src="img/sem-foto.jpg"
-=======
                     src="fotos/sem-foto.jpg"
->>>>>>> 438f029 (usuario colocado)
                     alt="Pré-visualização da foto"
                     style="width: 400px; height: 300px; object-fit: cover;">
             </div>

@@ -151,8 +151,6 @@ function remove($table = null, $id = null)
 
     close_database($database);
 }
-<<<<<<< HEAD
-=======
 
 function filter($table = null, $p = null)
 {
@@ -191,5 +189,4 @@ function criptografia($senha)
     $hash = crypt($senha, "$2a$" . $custo . "$" . $salt . "$");
     return $hash;
 }
->>>>>>> 438f029 (usuario colocado)
 ?>
