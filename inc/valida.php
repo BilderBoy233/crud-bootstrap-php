@@ -25,6 +25,9 @@ try {
 
         // Validação do usuário/senha digitados
         $sql = "SELECT id, nome, user, password FROM usuarios WHERE (user = '" . $usuario . "') AND (password = '" . $senha . "') LIMIT 1;";
+
+
+
         $query = $bd->query($sql);
         if ($query->num_rows > 0) {
             // Coletando os dados
