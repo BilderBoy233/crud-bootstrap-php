@@ -189,4 +189,11 @@ function criptografia($senha)
     $hash = crypt($senha, "$2a$" . $custo . "$" . $salt . "$");
     return $hash;
 }
+
+function clear_message()
+{
+
+    $_SESSION["message"] = null;
+    $_SESSION["type"] = null;
+}
 ?>
