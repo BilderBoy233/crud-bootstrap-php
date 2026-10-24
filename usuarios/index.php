@@ -41,22 +41,16 @@ include HEADER_TEMPLATE;
         <?php if ($users): ?>
             <?php foreach ($users as $user): ?>
                 <tr>
-
                     <td><?php echo $user['id']; ?></td>
                     <td><?php echo $user['nome']; ?></td>
                     <td><?php echo $user['user']; ?></td>
                     <td>
-                        <?php if (!empty($user['foto']) && file_exists("fotos/" . $user['foto'])): ?>
-                            <img src="fotos/<?php echo $user['foto']; ?>"
-                                alt="Foto do usuario"
-                                style="width: 100px; height: 80px; object-fit: cover;">
+                        <?php if (!empty($user['foto']) && file_exists("uploads/" . $user['foto'])): ?>
+                            <img src="uploads/<?php echo $user['foto']; ?>" alt="Foto do usuário" style="width: 100px; height: 80px; object-fit: cover;" class="img-thumbnail">
                         <?php else: ?>
-                            <img src="fotos/sem-foto.jpg"
-                                alt="Sem foto"
-                                style="width: 100px; height: 80px; object-fit: cover;">
+                            <img src="fotos/sem-foto.jpg" alt="Sem foto" style="width: 100px; height: 80px; object-fit: cover;" class="img-thumbnail">
                         <?php endif; ?>
                     </td>
-
                     <td class="actions text-end">
                         <a href="view.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-light">
                             <i class="fa-solid fa-eye"></i> Visualizar
@@ -64,11 +58,9 @@ include HEADER_TEMPLATE;
                         <a href="edit.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-secondary">
                             <i class="fa-solid fa-pen-to-square"></i> Editar
                         </a>
-                        <a href="#" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#delete-modal"
-                            data-customer="<?php echo $user['id']; ?>">
+                        <a href="#" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#delete-modal" data-customer="<?php echo $user['id']; ?>">
                             <i class="fa-solid fa-trash-can"></i> Excluir
                         </a>
-
                     </td>
                 </tr>
             <?php endforeach; ?>

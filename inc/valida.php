@@ -1,85 +1,77 @@
 <?php
-// Esse é o valida.php
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 include ("../config.php");
 require_once(DBAPI);
-include(HEADER_TEMPLATE);
-// Verifica se houve POST e se o usuário ou a senha é(são) vazio(s)
-if (!empty($_POST) AND (empty($_POST['login']) OR empty($_POST['senha']))) {
-    header("Location:" . BASEURL . "index.php");
+
+// Se não houver envio via POST ou se os campos estiverem vazios
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['login']) || empty($_POST['senha'])) {
+    $_SESSION['message'] = "Preencha o usuário e a senha para entrar.";
+    $_SESSION['type'] = "warning";
+    header("Location: " . BASEURL . "inc/login.php");
     exit;
 }
-// Tenta se conectar a um banco de dados MySQL
+
 $bd = open_database();
+
 try {
-    // Selecionando o Banco de dados que está ajustado na constante DB_NAME
-    // Caso ele não consiga,
-    $bd -> select_db(DB_NAME);
-    // Pegando o login e senha digitado no form
+    $bd->select_db(DB_NAME);
+
     $usuario = $_POST['login'];
-    $senha = $_POST['senha'];
-    // testando para ver so o login e senha digitado no form não estão vazios
-    if(!empty($usuario) && !empty($senha)){
-        // Pegando a senha digitada no form e criptografando ela para poder comparar
-        // a função de criptografia FOI MOVIDA para o arquivo database.php (DBAPI)
-        $senha = criptografia($_POST['senha']);
+    $senha_digitada = $_POST['senha'];
 
-        // Validação do usuário/senha digitados
-        $sql = "SELECT id, nome, user, password FROM usuarios WHERE (user = '" . $usuario . "') AND (password = '" . $senha . "') LIMIT 1;";
-
-
-
-        $query = $bd->query($sql);
-        if ($query->num_rows > 0) {
-            // Coletando os dados
-            $dados = $query->fetch_assoc();
-            echo "<b>";
-            var_dump($dados);
-            echo "</b>";
-            $id = $dados['id'];
-            $nome = $dados['nome'];
-            $user = $dados['user'];
-            $password = $dados['password'];
-            var_dump($user);
-            // Verifica se $user não está vazio
-            if (!empty($user)){
-                if (!isset($_SESSION)) session_start();
-                $_SESSION['message'] = "Bem vindo " . $nome . "!";
-                $_SESSION['type'] = "info";
-                $_SESSION['id'] = $id;
-                $_SESSION['nome'] = $nome;
-                $_SESSION['user'] = $user;
-                echo "<b>";
-                var_dump($user);
-                echo "</b>";
-            } else {
-                // Mensagem de erro quando os dados são inválidos e/ou o usuário não foi encontrado
-                throw new Exception("Não foi possível se conectar!<br>Verifique seu usuário e senha.");
-            }
-            // Direciona para o index do site
-            header("Location: " . BASEURL . "index.php");
-        } else {
-            // Mensagem de erro quando os dados são inválidos e/ou o usuário não foi encontrado
-            throw new Exception("Não foi possível se conectar!<br>Verifique seu usuário e senha.");
-        }
+    // Se a função criptografia existir no database.php, aplica na senha digitada
+    if (function_exists('criptografia')) {
+        $senha = criptografia($senha_digitada);
     } else {
-        // Mensagem de erro quando os dados são inválidos e/ou o usuário não foi encontrado
-        throw new Exception("Não foi possível se conectar!<br>Verifique seu usuário e senha.");
+        $senha = $senha_digitada;
+    }
+
+    // Consulta SQL de validação
+    // NOTA: Certifique-se de que no banco os nomes das colunas são 'user' e 'password'
+    $sql = "SELECT id, nome, user, password FROM usuarios WHERE (user = '" . $usuario . "') AND (password = '" . $senha . "') LIMIT 1;";
+    
+    $query = $bd->query($sql);
+
+    if ($query && $query->num_rows > 0) {
+        $dados = $query->fetch_assoc();
+
+        $_SESSION['id'] = $dados['id'];
+        $_SESSION['nome'] = $dados['nome'];
+        $_SESSION['user'] = $dados['user'];
+        $_SESSION['message'] = "Bem-vindo(a), " . $dados['nome'] . "!";
+        $_SESSION['type'] = "info";
+
+        // Login feito com sucesso: Redireciona para o index principal
+        header("Location: " . BASEURL . "index.php");
+        exit;
+    } else {
+        // Se a busca com a senha criptografada falhar, testa sem a criptografia (caso esteja em texto puro no banco)
+        $sql_fallback = "SELECT id, nome, user, password FROM usuarios WHERE (user = '" . $usuario . "') AND (password = '" . $senha_digitada . "') LIMIT 1;";
+        $query_fallback = $bd->query($sql_fallback);
+
+        if ($query_fallback && $query_fallback->num_rows > 0) {
+            $dados = $query_fallback->fetch_assoc();
+
+            $_SESSION['id'] = $dados['id'];
+            $_SESSION['nome'] = $dados['nome'];
+            $_SESSION['user'] = $dados['user'];
+            $_SESSION['message'] = "Bem-vindo(a), " . $dados['nome'] . "!";
+            $_SESSION['type'] = "info";
+
+            header("Location: " . BASEURL . "index.php");
+            exit;
+        } else {
+            throw new Exception("Usuário ou senha incorretos.");
+        }
     }
 } catch (Exception $e) {
-    $_SESSION['message'] = "Ocorreu um erro: " . $e->getMessage();
+    $_SESSION['message'] = $e->getMessage();
     $_SESSION['type'] = "danger";
+    // Em caso de erro, retorna para a tela de login
+    header("Location: " . BASEURL . "inc/login.php");
+    exit;
 }
 ?>
-
-<?php if (!empty($_SESSION['message'])) : ?>
-    <div class="alert alert-<?php echo $_SESSION['type']; ?> alert-dismissible" role="alert" id="actions">
-        <?php echo $_SESSION['message']; ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    <?php clear_message(); ?>
-<?php endif; ?>
-<header>
-    <a href="<?php echo BASEURL ?>index.php" class="btn btn-light"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
-</header>
-
-<?php include(FOOTER_TEMPLATE); ?>

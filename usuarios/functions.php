@@ -58,7 +58,7 @@ function add()
             $user["password"] = $password;
         }
 
-        save('users', $user);
+        save('usuarios', $user);
         header('location: index.php');
     }
 }

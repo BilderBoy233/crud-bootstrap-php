@@ -15,18 +15,18 @@ edit();
     <hr>
     <div class="row">
         <div class="form-group col-md-8">
-            <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" name="user[nome]" maxlength="50" required value="<?php echo $user['nome']; ?>">
+            <label for="name">Nome</label>
+            <input type="text" class="form-control" id="name" name="user[nome]" maxlength="50" required value="<?php echo $user['nome']; ?>">
         </div>
 
         <div class="form-group col-md-4">
-            <label for="marca">Usuário(Login)</label>
-            <input type="text" class="form-control" id="marca" name="user[user]" maxlength="30" required value="<?php echo $user['user']; ?>">
+            <label for="user">Usuário(Login)</label>
+            <input type="text" class="form-control" id="user" name="user[user]" maxlength="30" required value="<?php echo $user['user']; ?>">
         </div>
 
         <div class="form-group col-md-4">
-            <label for="motor">Senha</label>
-            <input type="password" class="form-control" id="motor" name="user[password]" maxlength="20" required value="<?php echo $user['password']; ?>">
+            <label for="password">Senha</label>
+            <input type="password" class="form-control" id="password" name="user[password]" maxlength="20" required value="<?php echo $user['password']; ?>">
         </div>
 
     </div>

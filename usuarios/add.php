@@ -4,7 +4,7 @@ add();
 ?>
 <?php include(HEADER_TEMPLATE); ?>
 
-<h2 class="mt-2">Nova Moto</h2>
+<h2 class="mt-2">Novo Usuário</h2>
 
 <?php if (!empty($_SESSION['message'])): ?>
     <div class="alert alert-<?php echo $_SESSION['type']; ?>"><?php echo $_SESSION['message']; ?></div>
@@ -15,18 +15,18 @@ add();
     <hr>
     <div class="row">
         <div class="form-group col-md-5">
-            <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" name="user[nome]" maxlength="50" required>
+            <label for="name">Nome</label>
+            <input type="text" class="form-control" id="name" name="user[nome]" maxlength="50" required>
         </div>
 
         <div class="form-group col-md-3">
-            <label for="marca">Usuario(Login)</label>
-            <input type="text" class="form-control" id="marca" name="user[user]" maxlength="30" required>
+            <label for="user">Usuario(Login)</label>
+            <input type="text" class="form-control" id="user" name="user[user]" maxlength="30" required>
         </div>
 
         <div class="form-group col-md-2">
-            <label for="motor">Senha</label>
-            <input type="password" class="form-control" id="motor" name="user[password]" maxlength="20" required>
+            <label for="password">Senha</label>
+            <input type="password" class="form-control" id="password" name="user[password]" maxlength="20" required>
         </div>
     </div>
 
@@ -41,6 +41,7 @@ add();
                 <img id="previewFoto"
                     src="fotos/sem-foto.jpg"
                     alt="Pré-visualização da foto"
+                    class="img-thumbnail"
                     style="width: 400px; height: 300px; object-fit: cover;">
             </div>
         </div>
@@ -53,5 +54,32 @@ add();
         </div>
     </div>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inputFoto = document.getElementById('foto');
+    const previewFoto = document.getElementById('previewFoto');
+
+    if (inputFoto && previewFoto) {
+        inputFoto.addEventListener('change', function (event) {
+            const arquivo = event.target.files[0];
+
+            if (arquivo) {
+                // Cria uma URL temporária do arquivo selecionado no computador
+                const objectUrl = URL.createObjectURL(arquivo);
+                previewFoto.src = objectUrl;
+
+                // Libera a memória após o carregamento da imagem
+                previewFoto.onload = function () {
+                    URL.revokeObjectURL(objectUrl);
+                };
+            } else {
+                // Volta para a imagem padrão caso o usuário cancele a seleção
+                previewFoto.src = 'fotos/sem-foto.jpg';
+            }
+        });
+    }
+});
+</script>
 
 <?php include(FOOTER_TEMPLATE); ?>
