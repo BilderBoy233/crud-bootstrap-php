@@ -96,7 +96,7 @@ function edit()
                 }
             }
 
-            update('users', $id, $user);
+            update('usuarios', $id, $user);
             header('location: index.php');
         } else {
             global $user;

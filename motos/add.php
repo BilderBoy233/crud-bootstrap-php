@@ -1,4 +1,15 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+if (!isset($_SESSION['user'])) {
+    $_SESSION['message'] = "Você precisa estar logado para acessar esta página.";
+    $_SESSION['type'] = "danger";
+    header("Location: ../inc/login.php");
+    exit;
+}
+
 require_once('functions.php');
 add();
 ?>
@@ -45,8 +56,9 @@ add();
             <div class="mt-3">
                 <p>Pré-visualização:</p>
                 <img id="previewFoto"
-                    src="fotos/sem-foto.jpg"
+                    src="img/sem-foto.jpg"
                     alt="Pré-visualização da foto"
+                    class="img-thumbnail"
                     style="width: 400px; height: 300px; object-fit: cover;">
             </div>
         </div>
@@ -59,5 +71,29 @@ add();
         </div>
     </div>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inputFoto = document.getElementById('foto');
+    const previewFoto = document.getElementById('previewFoto');
+
+    if (inputFoto && previewFoto) {
+        inputFoto.addEventListener('change', function (event) {
+            const arquivo = event.target.files[0];
+
+            if (arquivo) {
+                const objectUrl = URL.createObjectURL(arquivo);
+                previewFoto.src = objectUrl;
+
+                previewFoto.onload = function () {
+                    URL.revokeObjectURL(objectUrl);
+                };
+            } else {
+                previewFoto.src = 'img/sem-foto.jpg';
+            }
+        });
+    }
+});
+</script>
 
 <?php include(FOOTER_TEMPLATE); ?>

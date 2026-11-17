@@ -1,4 +1,15 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+if (!isset($_SESSION['user'])) {
+    $_SESSION['message'] = "Você precisa estar logado para acessar esta página.";
+    $_SESSION['type'] = "danger";
+    header("Location: ../inc/login.php");
+    exit;
+}
+
 require_once('functions.php');
 add();
 ?>

@@ -16,18 +16,20 @@ try {
 <?php if ($erro == ""): ?>
 
     <div class="row">
-        <div class="col-xs-6 col-sm-3 col-md-2">
-            <a href="customers/add.php" class="btn btn-secondary">
-                <div class="row">
-                    <div class="col-xs-12 text-center">
-                        <i class="fa fa-user-plus fa-5x"></i>
+        <?php if (isset($_SESSION['user'])) : ?>
+            <div class="col-xs-6 col-sm-3 col-md-2">
+                <a href="customers/add.php" class="btn btn-secondary">
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <i class="fa fa-user-plus fa-5x"></i>
+                        </div>
+                        <div class="col-xs-12 text-center">
+                            <p>Novo Cliente</p>
+                        </div>
                     </div>
-                    <div class="col-xs-12 text-center">
-                        <p>Novo Cliente</p>
-                    </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
+        <?php endif; ?>
 
         <div class="col-xs-6 col-sm-3 col-md-2">
             <a href="customers" class="btn btn-light">
@@ -44,14 +46,17 @@ try {
     </div>
 
     <div class="row mt-2">
-        <div class="col-xs-6 col-sm-3 col-md-2">
-            <a href="motos/add.php" class="btn btn-secondary">
-                <div class="row">
-                    <div class="col-xs-12 text-center"><i class="fa-solid fa-plus fa-5x"></i></div>
-                    <div class="col-xs-12 text-center"><p>Nova Moto</p></div>
-                </div>
-            </a>
-        </div>
+        <?php if (isset($_SESSION['user'])) : ?>
+            <div class="col-xs-6 col-sm-3 col-md-2">
+                <a href="motos/add.php" class="btn btn-secondary">
+                    <div class="row">
+                        <div class="col-xs-12 text-center"><i class="fa-solid fa-plus fa-5x"></i></div>
+                        <div class="col-xs-12 text-center"><p>Nova Moto</p></div>
+                    </div>
+                </a>
+            </div>
+        <?php endif; ?>
+
         <div class="col-xs-6 col-sm-3 col-md-2">
             <a href="motos" class="btn btn-light">
                 <div class="row">

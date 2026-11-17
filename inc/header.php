@@ -44,9 +44,11 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
+                            <?php if (isset($_SESSION['user'])) : ?>
                             <a class="dropdown-item" href="<?php echo BASEURL; ?>customers/add.php">
                                 <i class="fa-solid fa-user-plus"></i> Novo Cliente
                             </a>
+                            <?php endif; ?>
                         </li>
                         <li>
                             <a class="dropdown-item" href="<?php echo BASEURL; ?>customers">
@@ -62,7 +64,9 @@
                         <i class="fa-solid fa-motorcycle"></i> Motos
                     </a>
                     <ul class="dropdown-menu">
+                        <?php if (isset($_SESSION['user'])) : ?>
                         <li><a class="dropdown-item" href="<?php echo BASEURL; ?>motos/add.php"><i class="fa-solid fa-plus"></i> Nova Moto</a></li>
+                        <?php endif; ?>
                         <li><a class="dropdown-item" href="<?php echo BASEURL; ?>motos"><i class="fa-solid fa-motorcycle"></i> Gerenciar Motos</a></li>
                     </ul>
                 </li>

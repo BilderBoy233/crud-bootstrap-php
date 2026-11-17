@@ -73,4 +73,31 @@ edit();
     </div>
 </form>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inputFoto = document.getElementById('foto');
+    const previewFoto = document.getElementById('previewFoto');
+
+    if (inputFoto && previewFoto) {
+        inputFoto.addEventListener('change', function (event) {
+            const arquivo = event.target.files[0];
+
+            if (arquivo) {
+                // Cria uma URL temporária do arquivo selecionado no computador
+                const objectUrl = URL.createObjectURL(arquivo);
+                previewFoto.src = objectUrl;
+
+                // Libera a memória após o carregamento da imagem
+                previewFoto.onload = function () {
+                    URL.revokeObjectURL(objectUrl);
+                };
+            } else {
+                // Volta para a imagem padrão caso o usuário cancele a seleção
+                previewFoto.src = 'fotos/sem-foto.jpg';
+            }
+        });
+    }
+});
+</script>
+
 <?php include(FOOTER_TEMPLATE); ?>

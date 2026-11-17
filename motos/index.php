@@ -8,7 +8,9 @@ include HEADER_TEMPLATE;
     <div class="row">
         <div class="col-sm-6"><h2>Motos</h2></div>
         <div class="col-sm-6 text-end h2">
+            <?php if (isset($_SESSION['user'])) : ?>
             <a class="btn btn-secondary" href="add.php"><i class="fa-solid fa-motorcycle"></i> Nova Moto</a>
+            <?php endif; ?>
             <a class="btn btn-light" href="index.php"><i class="fa-solid fa-refresh"></i> Atualizar</a>
         </div>
     </div>
@@ -33,7 +35,9 @@ include HEADER_TEMPLATE;
             <th>Data de Cadastro</th>
             <th>Placa</th>
             <th>Foto</th>
+            <?php if (isset($_SESSION['user'])) : ?>
             <th class="text-center">Opções</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -57,6 +61,7 @@ include HEADER_TEMPLATE;
                                 style="width: 80px; height: 60px; object-fit: cover;">
                         <?php endif; ?>
                     </td>
+                        <?php if (isset($_SESSION['user'])) : ?>
                     <td class="actions text-end">
                         <a href="view.php?id=<?php echo $moto['id']; ?>" class="btn btn-sm btn-light"><i class="fa-solid fa-eye"></i> Visualizar</a>
                         <a href="edit.php?id=<?php echo $moto['id']; ?>" class="btn btn-sm btn-secondary"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
@@ -65,6 +70,8 @@ include HEADER_TEMPLATE;
                             <i class="fa-solid fa-trash-can"></i> Excluir
                         </a>
                     </td>
+                    <?php endif; ?>
+
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>

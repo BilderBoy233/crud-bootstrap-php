@@ -10,7 +10,9 @@ include HEADER_TEMPLATE;
             <h2>Clientes</h2>
         </div>
         <div class="col-sm-6 text-end h2">
+            <?php if (isset($_SESSION['user'])) : ?>
             <a class="btn btn-secondary" href="add.php"><i class="fa-solid fa-user-plus"></i> Novo Cliente</a>
+            <?php endif; ?>
             <a class="btn btn-light" href="index.php"><i class="fa-solid fa-refresh"></i> Atualizar</a>
         </div>
     </div>
@@ -35,7 +37,9 @@ include HEADER_TEMPLATE;
             <th>CPF/CNPJ</th>
             <th>Telefone</th>
             <th>Atualizado em</th>
+            <?php if (isset($_SESSION['user'])) : ?>
             <th class="text-center">Opções</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -49,6 +53,7 @@ include HEADER_TEMPLATE;
                     <td>
                         <?php echo formatadata($customer['modified'], "d/m/Y - H:i:s"); ?>
                     </td>
+                    <?php if (isset($_SESSION['user'])) : ?>
                     <td class="actions text-end">
                         <a href="view.php?id=<?php echo $customer['id']; ?>" class="btn btn-sm btn-light">
                             <i class="fa-solid fa-eye"></i> Visualizar
@@ -61,6 +66,7 @@ include HEADER_TEMPLATE;
                             <i class="fa-solid fa-trash-can"></i> Excluir
                         </a>
                     </td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
