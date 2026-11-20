@@ -1,7 +1,19 @@
 <?php
-include "functions.php";
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+require_once('functions.php');
+
+if (empty($_SESSION['user']) || $_SESSION['user'] !== 'admin') {
+    $_SESSION['message'] = "Acesso restrito a administradores.";
+    $_SESSION['type'] = "danger";
+    header("Location: " . BASEURL . "index.php");
+    exit;
+}
+
 index();
-include HEADER_TEMPLATE;
+include(HEADER_TEMPLATE);
 ?>
 
 <header class="mt-2">

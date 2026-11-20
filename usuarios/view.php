@@ -36,7 +36,9 @@ include(HEADER_TEMPLATE);
         <dd><?php echo $user['user']; ?></dd>
 
         <dt>Senha:</dt>
-        <dd><?php echo $user['password']; ?></dd>
+        <dd class="col-sm-8 py-2 border-bottom text-muted">
+            <i class="fa-solid fa-lock"></i> Protegida por hash (não exibida por segurança)
+        </dd>
 
         <dt>Foto:</dt>
         <dd class="col-sm-9">
@@ -62,5 +64,29 @@ include(HEADER_TEMPLATE);
     </div>
 </div>
 <?php clear_message(); ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inputFoto = document.getElementById('foto');
+    const previewFoto = document.getElementById('previewFoto');
+
+    if (inputFoto && previewFoto) {
+        inputFoto.addEventListener('change', function (event) {
+            const arquivo = event.target.files[0];
+
+            if (arquivo) {
+                const objectUrl = URL.createObjectURL(arquivo);
+                previewFoto.src = objectUrl;
+
+                previewFoto.onload = function () {
+                    URL.revokeObjectURL(objectUrl);
+                };
+            } else {
+                previewFoto.src = 'fotos/sem-foto.jpg';
+            }
+        });
+    }
+});
+</script>
 
 <?php include(FOOTER_TEMPLATE); ?>

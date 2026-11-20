@@ -1,8 +1,20 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 require_once('functions.php');
+
+if (empty($_SESSION['user']) || $_SESSION['user'] !== 'admin') {
+    $_SESSION['message'] = "Acesso restrito a administradores.";
+    $_SESSION['type'] = "danger";
+    header("Location: " . BASEURL . "index.php");
+    exit;
+}
+
 add();
+include(HEADER_TEMPLATE);
 ?>
-<?php include(HEADER_TEMPLATE); ?>
 
 <h2 class="mt-2">Novo Usuário</h2>
 
@@ -65,16 +77,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const arquivo = event.target.files[0];
 
             if (arquivo) {
-                // Cria uma URL temporária do arquivo selecionado no computador
                 const objectUrl = URL.createObjectURL(arquivo);
                 previewFoto.src = objectUrl;
 
-                // Libera a memória após o carregamento da imagem
                 previewFoto.onload = function () {
                     URL.revokeObjectURL(objectUrl);
                 };
             } else {
-                // Volta para a imagem padrão caso o usuário cancele a seleção
                 previewFoto.src = 'fotos/sem-foto.jpg';
             }
         });

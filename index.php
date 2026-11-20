@@ -1,7 +1,12 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 include "config.php";
 include DBAPI;
 include HEADER_TEMPLATE;
+
 try {
     $db = open_database();
     $erro = "";
@@ -12,6 +17,23 @@ try {
 
 <h1>Dashboard</h1>
 <hr>
+
+<?php if (!empty($_SESSION['message'])) : ?>
+    <div class="alert alert-<?= htmlspecialchars($_SESSION['type'] ?? 'info') ?> alert-dismissible fade show" role="alert">
+        <?php if ($erro != "") : ?>
+            <p class="mb-1"><strong>ERRO:</strong> Não foi possível Conectar ao Banco de Dados!</p>
+        <?php endif; ?>
+        <?= htmlspecialchars($_SESSION['message']) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php
+        if (function_exists('clear_message')) {
+            clear_message();
+        } else {
+            unset($_SESSION['message'], $_SESSION['type']);
+        }
+    ?>
+<?php endif; ?>
 
 <?php if ($erro == ""): ?>
 
@@ -90,15 +112,6 @@ try {
         <?php endif; ?>
     <?php endif; ?>
 
-<?php else : ?>
-    <?php if (!empty($_SESSION['message'])) : ?>
-        <div class="alert alert-<?= $_SESSION['type'] ?> alert-dismissible" role="alert">
-            <p><strong>ERRO:</strong> Não foi possível Conectar ao Banco de Dados!</p>
-            <?= $_SESSION['message'] ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php clear_message(); ?>
-    <?php endif; ?>
 <?php endif; ?>
 
 <?php include FOOTER_TEMPLATE; ?>

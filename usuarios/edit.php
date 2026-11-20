@@ -2,7 +2,22 @@
 require_once('functions.php');
 edit();
 ?>
-<?php include(HEADER_TEMPLATE); ?>
+<?php
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    include("functions.php");
+
+    if (empty($_SESSION['user']) || $_SESSION['user'] !== 'admin') {
+        $_SESSION['message'] = "Acesso restrito a administradores.";
+        $_SESSION['type'] = "danger";
+        header("Location: " . BASEURL . "index.php");
+        exit;
+    }
+
+    edit();
+    include(HEADER_TEMPLATE);
+?>
 
 <h2 class="mt-2">Atualizar Moto</h2>
 

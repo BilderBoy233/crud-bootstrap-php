@@ -23,16 +23,20 @@ include (HEADER_TEMPLATE);
 
     <form action="valida.php" method="post">
         <div class="row">
-            <!-- User input -->
-            <div class="form-floating col-12 mb-3">
-                <input type="text" class="form-control" id="log" name="login" placeholder="Usuário" required>
-                <label for="log">Usuário</label>
+                       <!-- User input -->
+            <div class="col-12 mb-3">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="log" name="login" placeholder="Usuário" required>
+                    <label for="log">Usuário</label>
+                </div>
             </div>
-            
-            <!-- Password input -->
-            <div class="form-floating col-12 mb-3">
-                <input type="password" class="form-control" id="pass" name="senha" placeholder="Senha" required>
-                <label for="pass">Senha</label>
+
+                        <!-- Password input -->
+            <div class="col-12 mb-3">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="pass" name="senha" placeholder="Senha" required>
+                    <label for="pass">Senha</label>
+                </div>
             </div>
             
             <!-- Submit button -->
@@ -40,7 +44,7 @@ include (HEADER_TEMPLATE);
                 <button type="submit" class="btn btn-secondary mb-2">
                     <i class="fa-solid fa-user-check"></i> Conectar
                 </button>
-                <a href="<?php echo BASEURL; ?>" class="btn btn-light">
+                <a href="<?php echo BASEURL; ?>" class="btn btn-light mb-2">
                     <i class="fa-solid fa-rotate-left"></i> Cancelar
                 </a>
             </div>
